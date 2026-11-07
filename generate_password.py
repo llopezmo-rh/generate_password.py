@@ -130,8 +130,14 @@ if __name__ == "__main__":
 	first_character = generate_secure_random_string(1, max_non_alphanumeric=0)
 	last_character = generate_secure_random_string(1, max_non_alphanumeric=0)
 	middle_length = args.length - 2
-	middle_string = generate_secure_random_string(middle_length,
-		min_numerical=1, min_non_alphanumeric=1)
+	# Force a numerical character in the middle string only if both the first
+	# and the last characters are NOT numerical
+	if first_character.isdigit() or last_character.isdigit():
+		middle_string = generate_secure_random_string(middle_length,
+			min_non_alphanumeric=1)
+	else:
+		middle_string = generate_secure_random_string(middle_length,
+			min_non_alphanumeric=1, min_numerical=1)
 	
 	# Print password
 	password = first_character + middle_string + last_character
