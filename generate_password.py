@@ -10,6 +10,7 @@ import sys
 
 NON_ALPHANUMERIC_SET = "!._#%&$@*"
 DEFAULT_LENGTH = 10
+DESCRIPTION=f"A secure password generator. Default length: {DEFAULT_LENGTH}."
 # The password created by this script fullfills the following requirements:
 # 1. The first and last characters are alphanumerical.
 # 2. Among the rest of the characters there must be at least a number and a
@@ -26,7 +27,7 @@ def generate_secure_random_string(
 	max_numerical: int | None = None,
 	max_non_alphanumeric: int | None = None,
 	non_alphanumeric_set: str = NON_ALPHANUMERIC_SET
-) -> str:
+	) -> str:
 	"""
 	Generates a cryptographically secure random string with count constraints.
 	"""
@@ -112,12 +113,14 @@ def copy_to_clipboard(text: str) -> None:
 
 if __name__ == "__main__":
 	# Parse arguments
-	parser = argparse.ArgumentParser()
+	parser = argparse.ArgumentParser(description=DESCRIPTION)
 	parser.add_argument("-c", "--clipboard", action='store_true',
 		help="Copy password to clipboard")
 	# nargs="?" to make optional the positional argument
-	parser.add_argument("length", action="store", type=int, nargs="?",
-		default=DEFAULT_LENGTH, help="Password length")
+	parser.add_argument(
+		"length", action="store", type=int, nargs="?", default=DEFAULT_LENGTH,
+		help=f"""Password length. Default: {DEFAULT_LENGTH}. \
+			Minimum: {MIN_LENGTH}.""")
 	args = parser.parse_args()
 
 	# Validate arguments
